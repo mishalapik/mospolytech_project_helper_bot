@@ -144,9 +144,9 @@ class TextGenerator:
         for  i in range(len(documents)):
             document = documents[i]
             if document["has_template"] == True:
-                text+=f"{i+1}. 📝 {document["name"]} \n(шаблон доступен)\n\n"
+                text+=f"{i+1}. 📝 {document['name']} \n(шаблон доступен)\n\n"
             else:
-                text+=f"{i+1}. ✏️ {document["name"]} \n(нужно создать самостоятельно)\n\n"
+                text+=f"{i+1}. ✏️ {document['name']} \n(нужно создать самостоятельно)\n\n"
         
         return text
 
@@ -161,9 +161,9 @@ class TextGenerator:
         # print("DOCUMENT",document)
 
         if document["has_template"] == True:
-            text+=f"📝 {document["name"]}\n\n{document['description']}\n\n\n✅ Есть шаблон: да\n\n"
+            text+=f"📝 {document['name']}\n\n{document['description']}\n\n\n✅ Есть шаблон: да\n\n"
         else:
-            text+=f"📝 {document["name"]}\n\n{document['description']}\n\n\n✏️ Есть шаблон: нет\n\n"
+            text+=f"📝 {document['name']}\n\n{document['description']}\n\n\n✏️ Есть шаблон: нет\n\n"
         text+=f"{'⭐'*document['is_mandatory']+'➕'*(not document['is_mandatory'])}Обязательный: {'да'*document['is_mandatory']+'нет'*(not document['is_mandatory'])}"
         text
         return text

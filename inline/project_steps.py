@@ -39,11 +39,11 @@ class Dynamic:
             document = documents[i]
             if document["has_template"] == True:
                 inline_keyboard.append([InlineKeyboardButton(
-                    text=f"{i+1}. 📝 {document["name"]}",callback_data=f"document-{step_number}-{i}"
+                    text=f"{i+1}. 📝 {document['name']}",callback_data=f"document-{step_number}-{i}"
                     )])
             else:
                 inline_keyboard.append([InlineKeyboardButton(
-                    text=f"{i+1}. ✏️ {document["name"]}",callback_data=f"document-{step_number}-{i}"
+                    text=f"{i+1}. ✏️ {document['name']}",callback_data=f"document-{step_number}-{i}"
                     )])
 
         inline_keyboard.append([InlineKeyboardButton(text='Назад',callback_data=f'document-{step_number}-back_to_step')])

@@ -58,7 +58,7 @@ project_steps = {
 
 async def generate_step_text(step_number:int,project_steps:dict = project_steps)->str:
     step = project_steps[step_number]
-    text = f"Шаг {step_number} из 7\n\n📍{step["title"]}\n\n📋 Описание шага:\n{step["description"]}\n\n🎯Ваши действия:\n{step["student_actions"]}"
+    text = f"Шаг {step_number} из 7\n\n📍{step['title']}\n\n📋 Описание шага:\n{step['description']}\n\n🎯Ваши действия:\n{step['student_actions']}"
 
     return text
 
