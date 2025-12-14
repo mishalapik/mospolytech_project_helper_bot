@@ -12,10 +12,11 @@ router = Router()
 @router.message(Command("start"))
 async def start_command(message:Message,command:CommandObject):
     await message.answer_photo(**menu_static.main_menu)
+    
 
 
-@router.message(F.photo)
-async def handle_photo(message: Message):
-    # Получаем file_id самой большой версии фото
-    file_id = message.photo[-1].file_id
-    await message.reply(f"ID этой картинки: {file_id}")
+# @router.message(F.document)
+# async def handle_photo(message: Message):
+#     # Получаем file_id самой большой версии фото
+#     file_id = message.document.file_id
+#     await message.reply(f"ID этого файла картинки: {file_id}")

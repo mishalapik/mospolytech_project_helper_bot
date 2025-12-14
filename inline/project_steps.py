@@ -1,5 +1,5 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from texts.project_steps import project_documents
+from texts.project_documents import project_documents
 
 
 class Static:
@@ -33,10 +33,45 @@ class Dynamic:
     
     async def document_list_for_step(step_number:int)->InlineKeyboardMarkup:
         inline_keyboard = []
-        names = [x["name"] for x in project_documents[int(step_number)]]
-        for i in range(len(names)):
-            inline_keyboard.append([InlineKeyboardButton(text=names[i],callback_data=f"document-{step_number}-{i}")])
-        inline_keyboard.append([InlineKeyboardButton(text='Назад',callback_data=f'document-{step_number}-to_step')])
+        from texts.project_documents import project_documents
+        documents = project_documents[int(step_number)]
+        for i in range(len(documents)):
+            document = documents[i]
+            if document["has_template"] == True:
+                inline_keyboard.append([InlineKeyboardButton(
+                    text=f"{i+1}. 📝 {document["name"]}",callback_data=f"document-{step_number}-{i}"
+                    )])
+            else:
+                inline_keyboard.append([InlineKeyboardButton(
+                    text=f"{i+1}. ✏️ {document["name"]}",callback_data=f"document-{step_number}-{i}"
+                    )])
+
+        inline_keyboard.append([InlineKeyboardButton(text='Назад',callback_data=f'document-{step_number}-back_to_step')])
 
         keyboard = InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
         return keyboard
+    
+    async def specific_document(step_number:int, document_number:int):
+        from texts.project_documents import project_documents
+
+        inline_keyboard = []
+        
+        documents = project_documents[int(step_number)]
+
+        document = documents[document_number]
+
+        if document["has_template"] == True:
+            inline_keyboard.append(
+                [InlineKeyboardButton(
+                    text=f"📥 Скачать шаблон",callback_data=f"spec_document-{step_number}-{document_number}")]
+                    )
+        inline_keyboard.append(
+            [InlineKeyboardButton(
+                text = "🔙 Назад",
+                callback_data=f"spec_document-{step_number}-back"
+            )]
+        )
+
+        keyboard = InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
+        return keyboard
+        

@@ -70,11 +70,37 @@ async def step_nav_handler(call:CallbackQuery):
 @router.callback_query(F.data.startswith('document'))
 async def document_menu_handler(call:CallbackQuery):
     step_number,info = call.data.split('-')[1:]
-    print(step_number,info)
-    if info=='to_step':
+    # print(step_number,info)
+    if info=='back_to_step':
         await call.message.edit_caption(**(await general_dynamic_menus.step(int(step_number))))
         await call.answer()
 
     else:
-        await call.message.answer("Присылаем соответствующий документ")
+        #тут работаем
+        await call.message.edit_caption(
+            **(await general_dynamic_menus.specific_document_for_step(step_number,int(info)))
+            )
+        await call.answer()
+
+
+@router.callback_query(F.data.startswith("spec_document"))
+async def specific_document_handler(call:CallbackQuery):
+    step_number,info = call.data.split('-')[1:]
+
+    if info == 'back':
+        await call.message.edit_caption(
+            **(await general_dynamic_menus.required_documents_for_step(step_number))
+        )
+        await call.answer()
+    else:
+        from texts.project_documents import project_documents
+        document_number = int(info)
+        step_documents = project_documents[int(step_number)]
+        document = step_documents[document_number]
+
+        await call.message.answer_document(
+            document=document["file_id"],
+            caption = document["name"]
+        )
+
         await call.answer()
