@@ -3,6 +3,7 @@ from inline.project_steps import Static as project_steps_inline_static
 from inline.project_steps import Dynamic as project_steps_inline_dynamic
 from media.media_ids import Media_IDs
 from texts.project_steps import project_steps as steps_texts
+from aiogram.types import InputMediaPhoto
 
 from texts.project_documents import TextGenerator as document_text_generator
 from texts.project_steps import generate_step_text
@@ -18,11 +19,14 @@ class Static:
         'parse_mode':'HTML'
     }
 
+    main_back={
+        'media': InputMediaPhoto(media = Media_IDs.main_picture_id,caption=main_texts.main_info_text),
+        'reply_markup' : general_inline_static.main_menu
+    }
+
     project_nav = {
-        'photo' : Media_IDs.main_picture_id,
-        'caption' : main_texts.main_step_navigator_text,
+        'media': InputMediaPhoto(media = Media_IDs.navigator_main_id, caption = main_texts.main_step_navigator_text),
         'reply_markup' : project_steps_inline_static.project_nav,
-        
     } 
 
     
@@ -31,9 +35,9 @@ class Dynamic:
     async def step(step_number:int)->dict:
 
         step = {
-                # 'caption':f'{step_number}. {steps_texts[step_number]["title"]}\n\n{steps_texts[step_number]["description"]}\n\nЧто нужно делать?\n{steps_texts[step_number]["student_actions"]}',
-                'caption': await generate_step_text(step_number),
+                'media' : InputMediaPhoto(media=Media_IDs.steps[step_number-1], caption =  await generate_step_text(step_number)),
                 'reply_markup':await project_steps_inline_dynamic.step_nav(step_number)
+                
             }
         
         return step
@@ -41,7 +45,7 @@ class Dynamic:
     async def required_documents_for_step(step_number:int)->dict:
         
         required_documents_for_step = {
-                'caption': await document_text_generator.generate_document_list_screen_text(step=int(step_number)),
+                'media' : InputMediaPhoto(media = Media_IDs.steps[step_number-1], caption =  await document_text_generator.generate_document_list_screen_text(step=int(step_number))),
                 'reply_markup':await project_steps_inline_dynamic.document_list_for_step(step_number),
                 'parse_mode':'HTML'
             }
@@ -51,7 +55,7 @@ class Dynamic:
 
     async def specific_document_for_step(step_number:int,document_number:int)->dict:
         specific_document_for_step = {
-            'caption' : await document_text_generator.generate_specific_document_text(int(step_number),int(document_number)),
+            'media' : InputMediaPhoto(media = Media_IDs.steps[step_number-1], caption = await document_text_generator.generate_specific_document_text(int(step_number),int(document_number))),
             'reply_markup':await project_steps_inline_dynamic.specific_document(int(step_number),int(document_number))
         }
         return specific_document_for_step

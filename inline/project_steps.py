@@ -5,13 +5,15 @@ from texts.project_documents import project_documents
 class Static:
     project_nav = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text='Предпроектная подготовка',callback_data='project_nav-1-preparation')],
-            [InlineKeyboardButton(text='Экспертиза',callback_data='project_nav-2-expertise')],
-            [InlineKeyboardButton(text='Инициация проекта',callback_data='project_nav-3-initiation')],
-            [InlineKeyboardButton(text='Планирование проекта',callback_data='project_nav-4-planning')],
-            [InlineKeyboardButton(text='Реализация и контроль',callback_data='project_nav-5-relisation_control')],
-            [InlineKeyboardButton(text='Закрытие проекта',callback_data='project_nav-6-closure')],
-            [InlineKeyboardButton(text='Перевод в операционную фазу',callback_data='project_nav-7-operating_phase')]
+            [InlineKeyboardButton(text='1. 💡 Предпроектная подготовка',callback_data='project_nav-1-preparation')],
+            [InlineKeyboardButton(text='2. 🔍 Экспертиза',callback_data='project_nav-2-expertise')],
+            [InlineKeyboardButton(text='3. 🎬 Инициация проекта',callback_data='project_nav-3-initiation')],
+            [InlineKeyboardButton(text='4. 🗺️ Планирование проекта',callback_data='project_nav-4-planning')],
+            [InlineKeyboardButton(text='5. 🏗️ Реализация и контроль',callback_data='project_nav-5-relisation_control')],
+            [InlineKeyboardButton(text='6. 🏆 Закрытие проекта',callback_data='project_nav-6-closure')],
+            [InlineKeyboardButton(text='7. 🤝 Перевод в операционную фазу',callback_data='project_nav-7-operating_phase')],
+            [InlineKeyboardButton(text='🔙 Назад',callback_data='project_nav-back')]
+
         ]
     )
 

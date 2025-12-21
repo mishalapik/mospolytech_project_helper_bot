@@ -19,7 +19,7 @@ async def main_menu_handler(call:CallbackQuery):
     option = call.data.split('-')[1]
     print(option)
     if option == "project_nav":
-        await call.message.edit_caption(**general_static_menus.project_nav)
+        await call.message.edit_media(**general_static_menus.project_nav)
 
         await call.answer()
         return
@@ -27,12 +27,18 @@ async def main_menu_handler(call:CallbackQuery):
 
 @router.callback_query(F.data.startswith("project_nav"))
 async def project_navigation_main_handler(call:CallbackQuery):
-    step_number = int(call.data.split('-')[1])
+    option = call.data.split('-')[1]
+    if option == "back":
+        return await call.message.edit_media(
+            **(general_static_menus.main_back)
+        )
+    else:
+        step_number = int(call.data.split('-')[1])
 
-    await call.message.edit_caption(
-        **(await general_dynamic_menus.step(step_number))
-    )
-    await call.answer()
+        await call.message.edit_media(
+            **(await general_dynamic_menus.step(step_number))
+        )
+        await call.answer()
 
 
 @router.callback_query(F.data.startswith("step_nav"))
@@ -41,7 +47,7 @@ async def step_nav_handler(call:CallbackQuery):
     print(option)
 
     if option == 'documents':
-        await call.message.edit_caption(
+        await call.message.edit_media(
                 **(await general_dynamic_menus.required_documents_for_step(step_number))
             )
     elif option == 'prev_step':
@@ -49,7 +55,7 @@ async def step_nav_handler(call:CallbackQuery):
             return
         else:
             new_step_number = int(step_number)-1
-            await call.message.edit_caption(
+            await call.message.edit_media(
                 **(await general_dynamic_menus.step(new_step_number))
             )
     elif option == 'next_step':
@@ -57,13 +63,13 @@ async def step_nav_handler(call:CallbackQuery):
             return
         else:
             new_step_number = int(step_number)+1
-            await call.message.edit_caption(
+            await call.message.edit_media(
                 **(await general_dynamic_menus.step(new_step_number))
                 # caption=project_steps[new_step_number]["title"],
                 # reply_markup=await project_steps_inline_dynamic.step_nav(new_step_number)
             )
     elif option == 'to_main':
-        await call.message.edit_caption(**general_static_menus.project_nav)
+        await call.message.edit_media(**general_static_menus.project_nav)
 
     await call.answer()
 
@@ -72,12 +78,12 @@ async def document_menu_handler(call:CallbackQuery):
     step_number,info = call.data.split('-')[1:]
     # print(step_number,info)
     if info=='back_to_step':
-        await call.message.edit_caption(**(await general_dynamic_menus.step(int(step_number))))
+        await call.message.edit_media(**(await general_dynamic_menus.step(int(step_number))))
         await call.answer()
 
     else:
         #тут работаем
-        await call.message.edit_caption(
+        await call.message.edit_media(
             **(await general_dynamic_menus.specific_document_for_step(step_number,int(info)))
             )
         await call.answer()
@@ -88,7 +94,7 @@ async def specific_document_handler(call:CallbackQuery):
     step_number,info = call.data.split('-')[1:]
 
     if info == 'back':
-        await call.message.edit_caption(
+        await call.message.edit_media(
             **(await general_dynamic_menus.required_documents_for_step(step_number))
         )
         await call.answer()
