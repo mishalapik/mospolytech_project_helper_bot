@@ -43,11 +43,11 @@ class Dynamic:
         return step
     
     async def required_documents_for_step(step_number:int)->dict:
+
         
         required_documents_for_step = {
-                'media' : InputMediaPhoto(media = Media_IDs.steps[step_number-1], caption =  await document_text_generator.generate_document_list_screen_text(step=int(step_number))),
-                'reply_markup':await project_steps_inline_dynamic.document_list_for_step(step_number),
-                'parse_mode':'HTML'
+                'media' : InputMediaPhoto(media = Media_IDs.steps[int(step_number)-1], caption =  await document_text_generator.generate_document_list_screen_text(step=int(step_number))),
+                'reply_markup':await project_steps_inline_dynamic.document_list_for_step(step_number)
             }
         
         return required_documents_for_step
@@ -55,7 +55,7 @@ class Dynamic:
 
     async def specific_document_for_step(step_number:int,document_number:int)->dict:
         specific_document_for_step = {
-            'media' : InputMediaPhoto(media = Media_IDs.steps[step_number-1], caption = await document_text_generator.generate_specific_document_text(int(step_number),int(document_number))),
+            'media' : InputMediaPhoto(media = Media_IDs.steps[int(step_number)-1], caption = await document_text_generator.generate_specific_document_text(int(step_number),int(document_number))),
             'reply_markup':await project_steps_inline_dynamic.specific_document(int(step_number),int(document_number))
         }
         return specific_document_for_step
